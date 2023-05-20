@@ -31,7 +31,7 @@ SDRs tested with srsLTE eNB
 
 
 ```
-git clone https://github.com/herlesupreeth/docker_open5gs
+git clone https://github.com/VoicenterTeam/openimss.git
 cd docker_open5gs/base
 docker build --no-cache --force-rm -t docker_open5gs .
 
