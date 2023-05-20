@@ -1,17 +1,16 @@
-# docker_open5gs
-Docker files to build and run open5gs in a docker
+# OpenIMSs 
+
+Docker files to build and run open5gs with grafana and qyrn stuck 
 
 ## Tested Setup
 
 Docker host machine
 
-- Ubuntu 22
+- Ubuntu 22.04
 
 SDRs tested with srsLTE eNB
 
-- Ettus USRP B210
-
-UERANSIM (gNB + UE) simulator
+- Ettus USRP B210 or Chinese compatible 😉
 
 ## Build and Execution Instructions
 
@@ -20,7 +19,7 @@ UERANSIM (gNB + UE) simulator
 	* [docker-compose](https://docs.docker.com/compose)
 
 
-Clone repository and build base docker image of open5gs, kamailio, ueransim
+
 
 ```
 git clone https://github.com/herlesupreeth/docker_open5gs
