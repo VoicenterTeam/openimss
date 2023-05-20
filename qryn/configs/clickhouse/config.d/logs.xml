@@ -1,0 +1,9 @@
+<yandex>
+    <shutdown_wait_unfinished>3</shutdown_wait_unfinished>
+     <logger>
+       <level>error</level>
+       <console>true</console>
+       <log remove="remove"/>
+       <errorlog remove="remove"/>
+    </logger>
+</yandex>

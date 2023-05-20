@@ -1,0 +1,40 @@
+[sources.opensips_scscf_scrape]
+type = "prometheus_scrape"
+endpoints = [ "http://scscf:8080/metrics" ]
+scrape_interval_secs = 15
+instance_tag = "scscf"
+endpoint_tag = "opensips"
+
+[sources.opensips_icscf_scrape]
+type = "prometheus_scrape"
+endpoints = [ "http://icscf:8080/metrics" ]
+scrape_interval_secs = 15
+instance_tag = "icscf"
+endpoint_tag = "opensips"
+
+[sources.opensips_pcscf_scrape]
+type = "prometheus_scrape"
+endpoints = [ "http://pcscf:8080/metrics" ]
+scrape_interval_secs = 15
+instance_tag = "pcscf"
+endpoint_tag = "opensips"
+
+[sources.homer_scrape]
+type = "prometheus_scrape"
+endpoints = [ "http://heplify-server:9096/metrics" ]
+scrape_interval_secs = 15
+instance_tag = "heplify"
+endpoint_tag = "homer"
+
+[sources.open5gs_scrape]
+type = "prometheus_scrape"
+endpoints = [ "http://metrics:9090/metrics" ]
+scrape_interval_secs = 15
+instance_tag = "open5gs"
+endpoint_tag = "open5gs"
+
+[sinks.prom_write]
+type = "prometheus_remote_write"
+inputs = [ "homer_scrape", "open5gs_scrape" , "opensips_icscf_scrape", "opensips_scscf_scrape" , "opensips_pcscf_scrape" ]
+endpoint = "http://qryn:3100/api/prom/remote/write"
+healthcheck.enabled = false

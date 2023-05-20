@@ -1,0 +1,32 @@
+db_uri: mongodb://MONGO_IP/open5gs
+
+logger:
+    file: /open5gs/install/var/log/open5gs/pcf.log
+
+sbi:
+    server:
+      no_tls: true
+    client:
+      no_tls: true
+
+parameter:
+
+pcf:
+    sbi:
+      - addr: PCF_IP
+        port: 7777
+    metrics:
+      - addr: PCF_IP
+        port: 9091
+
+scp:
+    sbi:
+      - addr:
+          - SCP_IP
+        port: 7777
+
+nrf:
+    sbi:
+      - addr:
+          - NRF_IP
+        port: 7777

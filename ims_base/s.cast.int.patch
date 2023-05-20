@@ -1,0 +1,53 @@
+diff --git a/transformations.c b/transformations.c
+index 7b37300ee..ebe6661ca 100644
+--- a/transformations.c
++++ b/transformations.c
+@@ -255,6 +255,7 @@ static void trans_fill_right(pv_value_t *val, str pad, int len, char *_tr_buffer
+ int tr_eval_string(struct sip_msg *msg, tr_param_t *tp, int subtype,
+ 		pv_value_t *val)
+ {
++	unsigned int ui;
+ 	int i, j;
+ 	char *p, *s, *_tr_buffer = get_tr_buffer();
+ 	str st;
+@@ -481,6 +482,17 @@ int tr_eval_string(struct sip_msg *msg, tr_param_t *tp, int subtype,
+ 			val->rs.s = _tr_buffer;
+ 			val->rs.len = i;
+ 			break;
++		case TR_S_CAST_INT:
++			if(!(val->flags&PV_VAL_STR))
++				break;
++			if (val->rs.len != 4)
++				goto error;
++			ui = *(unsigned int *)val->rs.s;
++			memset(val, 0, sizeof(pv_value_t));
++			val->flags = PV_TYPE_INT|PV_VAL_INT|PV_VAL_STR;
++			val->ri = ui;
++			val->rs.s = int2str((unsigned long)ui, &val->rs.len);
++			break;
+ 		case TR_S_ESCAPEUSER:
+ 			if(!(val->flags&PV_VAL_STR))
+ 				val->rs.s = int2str(val->ri, &val->rs.len);
+@@ -2911,6 +2923,9 @@ int tr_parse_string(str* in, trans_t *t)
+ 	} else if(name.len==15 && strncasecmp(name.s, "unescape.common", 15)==0) {
+ 		t->subtype = TR_S_UNESCAPECOMMON;
+ 		return 0;
++	} else if(name.len==8 && strncasecmp(name.s, "cast.int", 8)==0) {
++		t->subtype = TR_S_CAST_INT;
++		return 0;
+ 	} else if(name.len==11 && strncasecmp(name.s, "escape.user", 11)==0) {
+ 		t->subtype = TR_S_ESCAPEUSER;
+ 		return 0;
+diff --git a/transformations.h b/transformations.h
+index c97dcb704..646fd370d 100644
+--- a/transformations.h
++++ b/transformations.h
+@@ -45,7 +45,7 @@ enum _tr_s_subtype {
+ 	TR_S_B64ENCODE, TR_S_B64DECODE, TR_S_XOR, TR_S_TRIM, TR_S_TRIMR, TR_S_TRIML,
+ 	TR_S_REVERSE, TR_S_EVAL, TR_S_SHA1, TR_S_SHA1_HMAC, TR_S_SHA224, TR_S_SHA224_HMAC,
+ 	TR_S_SHA256, TR_S_SHA256_HMAC, TR_S_SHA384, TR_S_SHA384_HMAC, TR_S_SHA512,
+-	TR_S_SHA512_HMAC
++	TR_S_SHA512_HMAC, TR_S_CAST_INT
+ };
+ enum _tr_uri_subtype {
+ 	TR_URI_NONE=0, TR_URI_USER, TR_URI_HOST, TR_URI_PASSWD, TR_URI_PORT,

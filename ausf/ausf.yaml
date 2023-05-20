@@ -1,0 +1,27 @@
+logger:
+    file: /open5gs/install/var/log/open5gs/ausf.log
+
+sbi:
+    server:
+      no_tls: true
+    client:
+      no_tls: true
+
+parameter:
+
+ausf:
+    sbi:
+      - addr: AUSF_IP
+        port: 7777
+
+scp:
+    sbi:
+      - addr:
+          - SCP_IP
+        port: 7777
+
+nrf:
+    sbi:
+      - addr:
+          - NRF_IP
+        port: 7777

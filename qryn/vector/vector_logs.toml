@@ -1,0 +1,28 @@
+[sources.rawlogs]
+type = "file"
+include = ["/log/*.log" ]
+ignore_older_secs = 5
+    [sources.rawlogs.fingerprint]
+    strategy = "device_and_inode"
+
+[transforms.samplelogs]
+type = "remap"
+inputs = ["rawlogs"]
+source = '''
+. = parse_syslog!(string!(.message))
+'''
+
+[sinks.cloki_syslog]
+type="loki"
+inputs = ["samplelogs"]
+endpoint = "http://qryn:3100"
+#tenant_id = "0"
+compression = "none"
+
+    [sinks.cloki_syslog.labels]
+    forwarder = "vector"
+    file = "{{ file }}"
+    type = "syslog"
+
+    [sinks.cloki_syslog.encoding]
+    codec = "json"

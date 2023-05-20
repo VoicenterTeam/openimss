@@ -1,0 +1,24 @@
+---
+data_dir: /tmp
+timezone: local
+
+sources:
+  samplelogs:
+    type: file
+    include:
+      - "/log/*.log"
+    exclude: []
+    ignore_older_secs: 999999
+
+sinks:
+  loki:
+    type: loki
+    inputs:
+      - samplelogs
+    endpoint: "http://qryn:3100"
+    encoding:
+      codec: json
+    labels:
+      forwarder: vector
+      file: "{{ file }}"
+      type = "syslog"

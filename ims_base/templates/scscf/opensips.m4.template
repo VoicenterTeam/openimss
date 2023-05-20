@@ -1,0 +1,256 @@
+#
+# OpenSIPS residential configuration script
+#     by OpenSIPS Solutions <team@opensips-solutions.com>
+#
+# This script was generated via "make menuconfig", from
+#   the "Residential" scenario.
+# You can enable / disable more features / functionalities by
+#   re-generating the scenario with different options.#
+#
+# Please refer to the Core CookBook at:
+#      https://opensips.org/Resources/DocsCookbooks
+# for a explanation of possible statements, functions and parameters.
+#
+
+
+####### Global Parameters #########
+
+/* uncomment the following lines to enable debugging */
+#debug_mode=yes
+
+log_level=3
+xlog_level=3
+log_stderror=yes
+log_stdout=yes
+log_facility=LOG_LOCAL0
+
+udp_workers=4
+
+/* uncomment the next line to enable the auto temporary blacklisting of 
+   not available destinations (default disabled) */
+#disable_dns_blacklist=no
+
+/* uncomment the next line to enable IPv6 lookup after IPv4 dns 
+   lookup failures (default disabled) */
+#dns_try_ipv6=yes
+
+
+socket=udp:172.22.0.20:6060
+socket=tcp:172.22.0.20:6060
+
+#set module path
+mpath="/lib64/opensips/modules/"
+
+####### Modules Section ########
+
+####### http module ######
+loadmodule "httpd.so"
+
+modparam("httpd", "ip", "0.0.0.0")
+modparam("httpd", "port", 8080)
+
+
+######  Prometheus module ###################
+loadmodule "prometheus.so"
+modparam("prometheus", "root", "metrics")
+modparam("prometheus", "statistics", "all")
+
+#### SIGNALING module
+loadmodule "signaling.so"
+
+#### StateLess module
+loadmodule "sl.so"
+
+#### Transaction Module
+loadmodule "tm.so"
+modparam("tm", "fr_timeout", 5)
+modparam("tm", "fr_inv_timeout", 30)
+modparam("tm", "restart_fr_on_each_reply", 0)
+modparam("tm", "onreply_avp_mode", 1)
+
+#### Record Route Module
+loadmodule "rr.so"
+/* do not append from tag to the RR (no need for this script) */
+modparam("rr", "append_fromtag", 0)
+
+#### MAX ForWarD module
+loadmodule "maxfwd.so"
+
+#### SIP MSG OPerationS module
+loadmodule "sipmsgops.so"
+
+#### FIFO Management Interface
+loadmodule "mi_fifo.so"
+modparam("mi_fifo", "fifo_name", "/run/opensips/opensips_fifo")
+modparam("mi_fifo", "fifo_mode", 0666)
+
+#### USeR LOCation module
+loadmodule "usrloc.so"
+modparam("usrloc", "nat_bflag", "NAT")
+modparam("usrloc", "working_mode_preset", "single-instance-no-db")
+
+#### REGISTRAR module
+loadmodule "registrar.so"
+modparam("registrar", "tcp_persistent_flag", "TCP_PERSISTENT")
+modparam("registrar", "attr_avp", "$avp(attr)")
+/* uncomment the next line not to allow more than 10 contacts per AOR */
+#modparam("registrar", "max_contacts", 10)
+
+#### ACCounting module
+loadmodule "acc.so"
+/* what special events should be accounted ? */
+modparam("acc", "early_media", 0)
+modparam("acc", "report_cancels", 0)
+/* by default we do not adjust the direct of the sequential requests.
+   if you enable this parameter, be sure to enable "append_fromtag"
+   in "rr" module */
+modparam("acc", "detect_direction", 0)
+
+loadmodule "proto_udp.so"
+loadmodule "proto_tcp.so"
+
+#### aaa_diameter module
+loadmodule "aaa_diameter.so"
+modparam("aaa_diameter", "fd_log_level", 1) # max amount of logging, quite annoying
+modparam("aaa_diameter", "realm", "ims.mnc001.mcc001.3gppnetwork.org")
+modparam("aaa_diameter", "peer_identity", "hss")
+modparam("aaa_diameter", "aaa_url",
+	"diameter:/etc/opensips/freeDiameter.conf;extra-avps-file:/etc/opensips/scscf.dictionary")
+
+#### auth module
+loadmodule "auth.so"
+
+####### Routing Logic ########
+
+# main request routing logic
+
+route{
+	xlog("L_ERR", "[$ci] Start route time [$Tf] method ($rm) r-uri ($ru) \n");
+
+	if (!mf_process_maxfwd_header(10)) {
+		send_reply(483,"Too Many Hops");
+		exit;
+	}
+
+	if (has_totag()) {
+
+		# handle hop-by-hop ACK (no routing required)
+		if ( is_method("ACK") && t_check_trans() ) {
+			t_relay();
+			exit;
+		}
+
+		# sequential request within a dialog should
+		# take the path determined by record-routing
+		if ( !loose_route() ) {
+			# we do record-routing for all our traffic, so we should not
+			# receive any sequential requests without Route hdr.
+			send_reply(404,"Not here");
+			exit;
+		}
+
+		if (is_method("BYE")) {
+			# do accounting even if the transaction fails
+			do_accounting("log","failed");
+		}
+
+		# route it out to whatever destination was set by loose_route()
+		# in $du (destination URI).
+		route(relay);
+		exit;
+	}
+
+	# CANCEL processing
+	if (is_method("CANCEL")) {
+		if (t_check_trans())
+			t_relay();
+		exit;
+	}
+
+	# absorb retransmissions, but do not create transaction
+	t_check_trans();
+
+	if (is_method("REGISTER")) {
+		if ($auth.resp == NULL) {
+			xlog("L_ERR", "[$ci] Received REGISTER for $tu - doing MAR\n");
+			$var(payload) = "[
+				{ \"Session-Id\": \"scscf.ims.mnc001.mcc001.3gppnetwork.org;"+$Ts+"."+$Tsm+";"+$pp+"\" },
+				{ \"Origin-Host\": \"scscf.ims.mnc001.mcc001.3gppnetwork.org\" },
+				{ \"Origin-Realm\": \"ims.mnc001.mcc001.3gppnetwork.org\" },
+				{ \"Destination-Realm\": \"ims.mnc001.mcc001.3gppnetwork.org\" },
+				{ \"Vendor-Specific-Application-Id\": [{\"Vendor-Id\": 10415},
+					{\"Auth-Application-Id\": 16777216}]},
+				{ \"Auth-Session-State\": 1 },
+				{ \"User-Name\": \""+$fU+"@"+$fd+"\" },
+				{ \"Public-Identity\": \""+$fu+"\" },
+				{ \"3GPP-SIP-Number-Auth-Items\": 1 },
+				{ \"3GPP-SIP-Auth-Data-Item\": [{\"3GPP-SIP-Authentication-Scheme\": \"unknown\"}]},
+				{ \"Server-Name\": \"sip:scscf.ims.mnc001.mcc001.3gppnetwork.org:6060\" }
+			]";
+
+			$var(rc) = dm_send_request(16777216, 303, $var(payload), $var(rpl_avps));
+			xlog("[$ci] MAA rc: $var(rc), MAA AVPs: $var(rpl_avps)\n");
+
+			# TODO: parse reply, fetch 3GPP-SIP-Auth-Data-Item and build Authorization header
+			#append_to_reply("WWW-Authenticate: Digest realm=\"ims.mnc001.mcc001.3gppnetwork.org\", nonce=\"KFQ/MpR3cE3V9PxucEQR5KED8uUMYIAALFyk6dsIJI8=\", algorithm=AKAv1-MD5, ck=\"db7f8c4a58e17083974bba3b936d34c4\", ik=\"6151667b9ef815c1dcb87473685f062a\", qop=\"auth,auth-int\"\r\n");
+			#t_reply(401,"Unauthorized");
+			www_challenge("ims.mnc001.mcc001.3gppnetwork.org", "auth");
+
+		} else { 
+			xlog("L_ERR", "[$ci] Received REGISTER for $tu - doing SAR\n");
+			$var(payload) = "[
+				{ \"Session-Id\": \"scscf.ims.mnc001.mcc001.3gppnetwork.org;"+$Ts+"."+$Tsm+";"+$pp+"\" },
+				{ \"Origin-Host\": \"scscf.ims.mnc001.mcc001.3gppnetwork.org\" },
+				{ \"Origin-Realm\": \"ims.mnc001.mcc001.3gppnetwork.org\" },
+				{ \"Destination-Realm\": \"ims.mnc001.mcc001.3gppnetwork.org\" },
+				{ \"Vendor-Specific-Application-Id\": [{\"Vendor-Id\": 10415},
+					{\"Auth-Application-Id\": 16777216}]},
+				{ \"Auth-Session-State\": 1 },
+				{ \"User-Name\": \""+$fU+"@"+$fd+"\" },
+				{ \"Public-Identity\": \""+$fu+"\" },
+				{ \"Server-Assignment-Type\": 1 },
+				{ \"User-Data-Already-Available\": 0},
+				{ \"Server-Name\": \"sip:scscf.ims.mnc001.mcc001.3gppnetwork.org:6060\" }
+			]";
+
+			$var(rc) = dm_send_request(16777216, 301, $var(payload), $var(rpl_avps));
+			xlog("[$ci] SAA rc: $var(rc), SAA AVPs: $var(rpl_avps)\n");
+			$avp(attr) = $ct.fields(params);
+			append_to_reply("Contact: $hdr(Contact);expires=600\r\n");
+			append_to_reply("Service-Route: <sip:orig@scscf.ims.mnc001.mcc001.3gppnetwork.org:6060;lr>\r\n");
+			append_to_reply("P-Associated-URI: <$fu>\r\n");
+			append_to_reply("Path: $hdr(Path)\r\n");
+			if (save("location", "path-lazy, no-reply")) {
+				t_reply(200, "OK");
+				exit;
+			}
+			t_reply(503, "Internal Error");
+		}
+		exit;
+	} else if (is_method("INVITE")) {
+		xlog("L_ERR", "[$ci] Received INVITE for $tu - sending to service\n");
+		if (!record_route()) {
+			xlog("L_ERR", "[$ci] Cannot do record_route()\n");
+			t_reply(503, "Internal Error");
+			exit;
+		}
+		$ru = "sip:" + $rU + "@172.22.0.23";
+		if (!t_relay()) {
+			xlog("L_ERR", "[$ci] Cannot relay to $ru\n");
+			t_reply(503, "Internal Error");
+			exit;
+		}
+		exit;
+	}
+
+	send_reply(503,"Not Implemented");
+	exit;
+}
+
+
+route[relay] {
+	if (!t_relay()) {
+		send_reply(500,"Internal Error");
+	}
+	exit;
+}

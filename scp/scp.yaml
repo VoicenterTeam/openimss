@@ -1,0 +1,22 @@
+logger:
+    file: /open5gs/install/var/log/open5gs/scp.log
+
+sbi:
+    server:
+      no_tls: true
+    client:
+      no_tls: true
+
+parameter:
+
+scp:
+    sbi:
+      addr:
+        - SCP_IP
+      port: 7777
+
+nrf:
+    sbi:
+      - addr:
+          - NRF_IP
+        port: 7777

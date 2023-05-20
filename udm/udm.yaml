@@ -1,0 +1,34 @@
+logger:
+    file: /open5gs/install/var/log/open5gs/udm.log
+
+sbi:
+    server:
+      no_tls: true
+    client:
+      no_tls: true
+
+parameter:
+
+udm:
+    hnet:
+      - id: 1
+        scheme: 1
+        key: /open5gs/install/etc/open5gs/hnet/curve25519-1.key
+      - id: 2
+        scheme: 2
+        key: /open5gs/install/etc/open5gs/hnet/secp256r1-2.key
+    sbi:
+      - addr: UDM_IP
+        port: 7777
+
+scp:
+    sbi:
+      - addr:
+          - SCP_IP
+        port: 7777
+
+nrf:
+    sbi:
+      - addr:
+          - NRF_IP
+        port: 7777
