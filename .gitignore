@@ -4,5 +4,4 @@ log/
 **/*.db
 **/*.db-shm
 **/*.db-wal
-.env
 
