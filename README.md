@@ -27,7 +27,7 @@ cd docker_open5gs/base
 docker build --no-cache --force-rm -t docker_open5gs .
 
 cd ../ims_base
-docker build --no-cache --force-rm -t docker_kamailio .
+docker build --no-cache --force-rm -t docker_opensips .
 
 cd ../srslte
 docker build --no-cache --force-rm -t docker_srslte .
