@@ -1,0 +1,12 @@
+[sources.prom_scrape]
+type = "prometheus_scrape"
+endpoints = [ "http://coroot-node-agent:80/metrics" ]
+scrape_interval_secs = 15
+instance_tag = "coroot"
+endpoint_tag = "coroot"
+
+[sinks.prom_write]
+type = "prometheus_remote_write"
+inputs = [ "prom_scrape" ]
+endpoint = "http://qryn:3100/api/prom/remote/write"
+healthcheck.enabled = false

@@ -1,0 +1,39 @@
+version: '2.1'
+
+services:
+
+  coroot:
+    image: ghcr.io/coroot/coroot
+    container_name: coroot
+    ports:
+      - 8013:8080
+    networks:
+      qryn_network:
+    
+  coroot-node-agent:
+    privileged: true
+    pid: host
+    image: ghcr.io/coroot/coroot-node-agent
+    container_name: exporter
+    restart: unless-stopped
+    expose:
+      - 80
+    volumes:
+      - /sys/fs/cgroup:/host/sys/fs/cgroup:ro
+      - /sys/kernel/debug:/sys/kernel/debug:rw
+    command: --cgroupfs-root=/host/sys/fs/cgroup
+    networks:
+      qryn_network:
+
+  vector-coroot:
+    image: timberio/vector:latest-alpine
+    container_name: vector-coroot
+    restart: unless-stopped
+    volumes:
+      - ./qryn-coroot/vector.toml:/etc/vector/vector.toml:ro
+    environment:
+      - QRYN_URL=https://qryn:3100/prom/remote/write
+    depends_on:
+      - coroot-node-agent
+    networks:
+      qryn_network:
