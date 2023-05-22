@@ -1,15 +1,15 @@
 # OpenIMSs
-![openIMSs](~@source/img/opensipss-logo.png)
 A community effort to bring up a comprehensive open source environment for real life development of 4G/5G/NR voice/video/data/RCS/IM services.
-We started from https://github.com/herlesupreeth/docker_open5gs, and began to generalize and expand from it
+
+We started from https://github.com/herlesupreeth/docker_open5gs , and begin to generalize and expand from it
 
 Status:
-- Open5GS - EPC  ![Open5GS logo](https://open5gs.org/assets/img/open5gs-logo.png)
+- Open5GS EPC ![Open5GS logo](https://open5gs.org/assets/img/open5gs-logo.png)
 - SRSRan 4G/LTE Radio Access ![srsRAN logo](~@source/img/srsran-logo.jpg)
 - implementation of IMS CSCFs in OpenSIPS ![opensips logo](~@source/img/OpenSIPS-logo.png)
 - qryn monitoring metrics telemethry ![metrico qryn](~@source/img/metrico-logo.png)
 - portainer ![portainer](~@source/img/portainer-logo.png)
-- graphana  ![grafana](~@source/img/Grafana-logo.png)
+- graphana ![grafana](~@source/img/Grafana-logo.png)
   ![coroot](~@source/img/coroot-monitoring.gif)
 
 ## Tested Setup
@@ -34,16 +34,16 @@ SDRs tested with srsLTE eNB
 ```
 git clone https://github.com/VoicenterTeam/openimss.git
 cd openimss/base
-docker build --no-cache --force-rm -t docker_open5gs .
+docker build --no-cache --force-rm -t docker_openimss_open5gs .
 
 cd ../ims_base
-docker build --no-cache --force-rm -t docker_opensips .
+docker build --no-cache --force-rm -t docker_openimss_opensips .
 
 cd ../srslte
-docker build --no-cache --force-rm -t docker_srslte .
+docker build --no-cache --force-rm -t docker_openimss_srslte .
 
 cd ../ueransim
-docker build --no-cache --force-rm -t docker_ueransim .
+docker build --no-cache --force-rm -t docker_openimss_ueransim .
 ```
 
 ### Build and Run using docker-compose
@@ -145,4 +145,3 @@ ip r add <SGWU_CONTAINER_IP> via <SGWU_ADVERTISE_IP>
 
 ## Not supported
 - IPv6 usage in Docker
-
