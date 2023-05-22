@@ -17,7 +17,7 @@ services:
             - portainer_network
   mongo:
     build: ./mongo
-    image: docker_mongo
+    image: docker_openimss_mongo
     container_name: mongo
     env_file:
       - .env
@@ -33,7 +33,7 @@ services:
       default:
         ipv4_address: ${MONGO_IP}
   webui:
-    image: docker_open5gs
+    image: docker_openimss_open5gs
     container_name: webui
     depends_on:
       - mongo
@@ -53,7 +53,7 @@ services:
       default:
         ipv4_address: ${WEBUI_IP}
   nrf:
-    image: docker_open5gs
+    image: docker_openimss_open5gs
     container_name: nrf
     env_file:
       - .env
@@ -70,7 +70,7 @@ services:
       default:
         ipv4_address: ${NRF_IP}
   scp:
-    image: docker_open5gs
+    image: docker_openimss_open5gs
     container_name: scp
     env_file:
       - .env
@@ -87,7 +87,7 @@ services:
       default:
         ipv4_address: ${SCP_IP}
   ausf:
-    image: docker_open5gs
+    image: docker_openimss_open5gs
     depends_on:
       - nrf
       - scp
@@ -107,7 +107,7 @@ services:
       default:
         ipv4_address: ${AUSF_IP}
   udr:
-    image: docker_open5gs
+    image: docker_openimss_open5gs
     depends_on:
       - nrf
       - scp
@@ -128,7 +128,7 @@ services:
       default:
         ipv4_address: ${UDR_IP}
   udm:
-    image: docker_open5gs
+    image: docker_openimss_open5gs
     depends_on:
       - nrf
       - scp
@@ -148,7 +148,7 @@ services:
       default:
         ipv4_address: ${UDM_IP}
   pcf:
-    image: docker_open5gs
+    image: docker_openimss_open5gs
     depends_on:
       - nrf
       - scp
@@ -170,7 +170,7 @@ services:
       default:
         ipv4_address: ${PCF_IP}
   bsf:
-    image: docker_open5gs
+    image: docker_openimss_open5gs
     depends_on:
       - nrf
       - scp
@@ -191,7 +191,7 @@ services:
       default:
         ipv4_address: ${BSF_IP}
   nssf:
-    image: docker_open5gs
+    image: docker_openimss_open5gs
     depends_on:
       - nrf
       - scp
@@ -212,7 +212,7 @@ services:
       default:
         ipv4_address: ${NSSF_IP}
   hss:
-    image: docker_open5gs
+    image: docker_openimss_open5gs
     container_name: hss
     env_file:
       - .env
@@ -236,7 +236,7 @@ services:
       default:
         ipv4_address: ${HSS_IP}
   sgwc:
-    image: docker_open5gs
+    image: docker_openimss_open5gs
     depends_on:
       - smf
       - upf
@@ -257,7 +257,7 @@ services:
       default:
         ipv4_address: ${SGWC_IP}
   sgwu:
-    image: docker_open5gs
+    image: docker_openimss_open5gs
     depends_on:
       - smf
       - upf
@@ -280,7 +280,7 @@ services:
       default:
         ipv4_address: ${SGWU_IP}
   smf:
-    image: docker_open5gs
+    image: docker_openimss_open5gs
     depends_on:
       - nrf
       - scp
@@ -310,7 +310,7 @@ services:
       default:
         ipv4_address: ${SMF_IP}
   upf:
-    image: docker_open5gs
+    image: docker_openimss_open5gs
     depends_on:
       - nrf
       - scp
@@ -341,7 +341,7 @@ services:
       default:
         ipv4_address: ${UPF_IP}
   amf:
-    image: docker_open5gs
+    image: docker_openimss_open5gs
     depends_on:
       - nrf
       - scp
@@ -370,7 +370,7 @@ services:
       default:
         ipv4_address: ${AMF_IP}
   mme:
-    image: docker_open5gs
+    image: docker_openimss_open5gs
     depends_on:
       - hss
       - sgwc
@@ -404,7 +404,7 @@ services:
       default:
         ipv4_address: ${MME_IP}
   pcrf:
-    image: docker_open5gs
+    image: docker_openimss_open5gs
     container_name: pcrf
     env_file:
       - .env
@@ -429,7 +429,7 @@ services:
         ipv4_address: ${PCRF_IP}
   dns:
     build: ./dns
-    image: docker_dns
+    image: docker_openimss_dns
     container_name: dns
     env_file:
       - .env
@@ -444,7 +444,7 @@ services:
         ipv4_address: ${DNS_IP}
   rtpengine:
     build: ./rtpengine
-    image: docker_rtpengine
+    image: docker_openimss_rtpengine
     container_name: rtpengine
     privileged: true
     env_file:
@@ -474,7 +474,7 @@ services:
         ipv4_address: ${RTPENGINE_IP}
   mysql:
     build: ./mysql
-    image: docker_mysql
+    image: docker_openimss_mysql
     container_name: mysql
     env_file:
       - .env
@@ -489,7 +489,7 @@ services:
         ipv4_address: ${MYSQL_IP}
   fhoss:
     build: ./fhoss
-    image: docker_fhoss
+    image: docker_openimss_fhoss
     container_name: fhoss
     dns: ${DNS_IP}
     volumes:
@@ -510,7 +510,7 @@ services:
       default:
         ipv4_address: ${FHOSS_IP}
   icscf:
-    image: docker_opensips
+    image: docker_openimss_opensips
     build: ./ims_base
     container_name: icscf
     dns: ${DNS_IP}
@@ -537,7 +537,7 @@ services:
       default:
         ipv4_address: ${ICSCF_IP}
   scscf:
-    image: docker_opensips
+    image: docker_openimss_opensips
     container_name: scscf
     build: ./ims_base
     dns: ${DNS_IP}
@@ -564,7 +564,7 @@ services:
       default:
         ipv4_address: ${SCSCF_IP}
   pcscf:
-    image: docker_opensips
+    image: docker_openimss_opensips
     container_name: pcscf
     build: ./ims_base
     dns: ${DNS_IP}
@@ -610,7 +610,7 @@ services:
         ipv4_address: ${PCSCF_IP}
   osmomsc:
     build: ./osmomsc
-    image: docker_osmomsc
+    image: docker_openimss_osmomsc
     container_name: osmomsc
     volumes:
       - ./osmomsc:/mnt/osmomsc
@@ -630,7 +630,7 @@ services:
         ipv4_address: ${OSMOMSC_IP}
   osmohlr:
     build: ./osmohlr
-    image: docker_osmohlr
+    image: docker_openimss_osmohlr
     container_name: osmohlr
     volumes:
       - ./osmohlr:/mnt/osmohlr
@@ -647,7 +647,7 @@ services:
         ipv4_address: ${OSMOHLR_IP}
   metrics:
     build: ./metrics
-    image: docker_metrics
+    image: docker_openimss_metrics
     container_name: metrics
     env_file:
       - .env

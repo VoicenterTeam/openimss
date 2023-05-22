@@ -99,7 +99,7 @@ services:
     container_name: vector_logs
     restart: unless-stopped
     volumes:
-      - /usr/src/docker_open5gs/log:/log:ro
+      - /usr/src/docker_openimss_open5gs/log:/log:ro
       - ./qryn/vector/vector_logs.toml:/etc/vector/vector.toml:ro
     depends_on:
       - qryn

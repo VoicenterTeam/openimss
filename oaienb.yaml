@@ -4,7 +4,7 @@ services:
     build:
       context: oai
       dockerfile: enb_dockerfile
-    image: docker_oai_enb
+    image: docker_openimss_oai_enb
     container_name: oaienb
     stdin_open: true
     tty: true
@@ -31,4 +31,4 @@ services:
 networks:
   default:
     external:
-      name: docker_open5gs_default
+      name: docker_openimss_open5gs_default

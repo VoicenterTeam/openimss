@@ -33,16 +33,16 @@ SDRs tested with srsLTE eNB
 ```
 git clone https://github.com/VoicenterTeam/openimss.git
 cd openimss/base
-docker build --no-cache --force-rm -t docker_open5gs .
+docker build --no-cache --force-rm -t docker_openimss_open5gs .
 
 cd ../ims_base
-docker build --no-cache --force-rm -t docker_opensips .
+docker build --no-cache --force-rm -t docker_openimss_opensips .
 
 cd ../srslte
-docker build --no-cache --force-rm -t docker_srslte .
+docker build --no-cache --force-rm -t docker_openimss_srslte .
 
 cd ../ueransim
-docker build --no-cache --force-rm -t docker_ueransim .
+docker build --no-cache --force-rm -t docker_openimss_ueransim .
 ```
 
 ### Build and Run using docker-compose

@@ -1,13 +1,13 @@
 #!/bin/bash
 
 
-cd docker_open5gs/base
+cd base
 
-docker build --no-cache --force-rm -t docker_open5gs .
+docker build --no-cache --force-rm -t docker_openimss_open5gs .
 
 cd ../srslte
 
-docker build --no-cache --force-rm -t docker_srslte .
+docker build --no-cache --force-rm -t docker_openimss_srslte .
 
 cd ..
 

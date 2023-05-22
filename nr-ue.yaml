@@ -1,7 +1,7 @@
 version: '3'
 services:
   nr_ue:
-    image: docker_ueransim
+    image: docker_openimss_ueransim
     container_name: nr_ue
     stdin_open: true
     tty: true
@@ -24,4 +24,4 @@ services:
 networks:
   default:
     external:
-      name: docker_open5gs_default
+      name: docker_openimss_open5gs_default

@@ -1,7 +1,7 @@
 version: '3'
 services:
   srsgnb:
-    image: docker_srslte
+    image: docker_openimss_srslte
     container_name: srsgnb
     stdin_open: true
     tty: true
@@ -27,4 +27,4 @@ services:
 networks:
   default:
     external:
-      name: docker_open5gs_default
+      name: docker_openimss_open5gs_default

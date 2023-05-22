@@ -2,7 +2,7 @@ version: '3'
 services:
   mongo:
     build: ./mongo
-    image: docker_mongo
+    image: docker_openimss_mongo
     container_name: mongo
     env_file:
       - .env
@@ -18,7 +18,7 @@ services:
       default:
         ipv4_address: ${MONGO_IP}
   webui:
-    image: docker_open5gs
+    image: docker_openimss_open5gs
     container_name: webui
     depends_on:
       - mongo
@@ -38,7 +38,7 @@ services:
       default:
         ipv4_address: ${WEBUI_IP}
   nrf:
-    image: docker_open5gs
+    image: docker_openimss_open5gs
     container_name: nrf
     env_file:
       - .env
@@ -55,7 +55,7 @@ services:
       default:
         ipv4_address: ${NRF_IP}
   scp:
-    image: docker_open5gs
+    image: docker_openimss_open5gs
     container_name: scp
     env_file:
       - .env
@@ -72,7 +72,7 @@ services:
       default:
         ipv4_address: ${SCP_IP}
   ausf:
-    image: docker_open5gs
+    image: docker_openimss_open5gs
     depends_on:
       - nrf
       - scp
@@ -92,7 +92,7 @@ services:
       default:
         ipv4_address: ${AUSF_IP}
   udr:
-    image: docker_open5gs
+    image: docker_openimss_open5gs
     depends_on:
       - nrf
       - scp
@@ -113,7 +113,7 @@ services:
       default:
         ipv4_address: ${UDR_IP}
   udm:
-    image: docker_open5gs
+    image: docker_openimss_open5gs
     depends_on:
       - nrf
       - scp
@@ -133,7 +133,7 @@ services:
       default:
         ipv4_address: ${UDM_IP}
   smf:
-    image: docker_open5gs
+    image: docker_openimss_open5gs
     depends_on:
       - nrf
       - scp
@@ -163,7 +163,7 @@ services:
       default:
         ipv4_address: ${SMF_IP}
   upf:
-    image: docker_open5gs
+    image: docker_openimss_open5gs
     depends_on:
       - nrf
       - scp
@@ -194,7 +194,7 @@ services:
       default:
         ipv4_address: ${UPF_IP}
   amf:
-    image: docker_open5gs
+    image: docker_openimss_open5gs
     depends_on:
       - nrf
       - scp
@@ -223,7 +223,7 @@ services:
       default:
         ipv4_address: ${AMF_IP}
   pcf:
-    image: docker_open5gs
+    image: docker_openimss_open5gs
     depends_on:
       - nrf
       - scp
@@ -245,7 +245,7 @@ services:
       default:
         ipv4_address: ${PCF_IP}
   bsf:
-    image: docker_open5gs
+    image: docker_openimss_open5gs
     depends_on:
       - nrf
       - scp
@@ -266,7 +266,7 @@ services:
       default:
         ipv4_address: ${BSF_IP}
   nssf:
-    image: docker_open5gs
+    image: docker_openimss_open5gs
     depends_on:
       - nrf
       - scp
@@ -288,7 +288,7 @@ services:
         ipv4_address: ${NSSF_IP}
   metrics:
     build: ./metrics
-    image: docker_metrics
+    image: docker_openimss_metrics
     container_name: metrics
     env_file:
       - .env
