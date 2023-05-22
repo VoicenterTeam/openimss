@@ -1,5 +1,5 @@
 # OpenIMSs 
-A community effort to bring up a comprehensive open source environment for real life development of 4G/5G/NR voice/video/data/RCS/IM services.
+A community effort to bring up a comprehensive open source environment for real life development of IMS based 4G/5G/NR voice/video/data/RCS/IM services.
 
 We started from https://github.com/herlesupreeth/docker_open5gs , and begin to generalize and expand from it
 
