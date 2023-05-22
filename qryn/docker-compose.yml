@@ -1,4 +1,4 @@
-version: '2.1'
+version: '3.0'
 
 volumes:
     grafana_data: {}
@@ -70,8 +70,7 @@ services:
       - NODE_OPTIONS="--max-old-space-size=4096"
 #      - ALERTMAN_URL=http://alertman:9093
     depends_on:
-       clickhouse-server:
-         condition: service_healthy
+       - clickhouse-server
     logging:
       options:
         max-size: "10m"
@@ -149,4 +148,4 @@ services:
 
 networks:
   qryn_network:
-    attachable: true
+    #attachable: true
