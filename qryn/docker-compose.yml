@@ -149,5 +149,4 @@ services:
 
 networks:
   qryn_network:
-    driver: overlay
     attachable: true
