@@ -1,0 +1,19 @@
+{
+  "name": "openIMSs",
+  "version": "0.0.1",
+  "description": "A community effort to bring up a comprehensive open source environment for real life development of 4G/5G/NR voice/video/data/RCS/IM services.",
+  "main": "index.js",
+  "authors": {
+    "name": "Shlomi Gutman",
+    "email": "info@openimss.org"
+  },
+  "repository": "VoicenterTeam/openimss",
+  "scripts": {
+    "dev": "vuepress dev src",
+    "build": "vuepress build src"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "vuepress": "^1.5.3"
+  }
+}

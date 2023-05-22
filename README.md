@@ -4,12 +4,13 @@ A community effort to bring up a comprehensive open source environment for real 
 We started from https://github.com/herlesupreeth/docker_open5gs , and begin to generalize and expand from it
 
 Status:
-- Open5GS EPC
-- SRSRan 4G/LTE Radio Access
-- implementation of IMS CSCFs in OpenSIPS
-- qryn monitoring metrics telemethry
-- portainer
-- graphana
+- Open5GS EPC ![Open5GS logo](https://open5gs.org/assets/img/open5gs-logo.png)
+- SRSRan 4G/LTE Radio Access ![srsRAN logo](~@source/img/srsran-logo.jpg)
+- implementation of IMS CSCFs in OpenSIPS ![opensips logo](~@source/img/OpenSIPS-logo.png)
+- qryn monitoring metrics telemethry ![metrico qryn](~@source/img/metrico-logo.png)
+- portainer ![portainer](~@source/img/portainer-logo.png)
+- graphana ![grafana](~@source/img/Grafana-logo.png)
+  ![coroot](~@source/img/coroot-monitoring.gif)
 
 ## Tested Setup
 
