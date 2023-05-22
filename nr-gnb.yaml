@@ -26,4 +26,4 @@ services:
 networks:
   default:
     external:
-      name: docker_openimss_open5gs_default
+      name: openimss_default
