@@ -1,20 +1,20 @@
 
 version: '3.0'
 services:
-  portanier:
-    image: portainer/portainer-ce:latest
-    volumes:
-      - portainer_data:/data
-      - /var/run/docker.sock:/var/run/docker.sock
-    container_name: portainer
-    restart: always
-    env_file:
-    - .env
-    ports:
-      - "8000:8000"
-      - "9443:9443"
-    networks:
-            - portainer_network
+##  portanier:
+##    image: portainer/portainer-ce:latest
+##    volumes:
+##      - portainer_data:/data
+##      - /var/run/docker.sock:/var/run/docker.sock
+##    container_name: portainer
+##    restart: always
+##    env_file:
+##    - .env
+##    ports:
+##      - "8000:8000"
+##      - "9443:9443"
+##    networks:
+##            - portainer_network
   mongo:
     build: ./mongo
     image: docker_openimss_mongo
@@ -663,9 +663,9 @@ services:
       default:
         ipv4_address: ${METRICS_IP}
 networks:
-  portainer_network:
-    driver: overlay
-    attachable: true
+##  portainer_network:
+##    driver: overlay
+##    attachable: true
   default:
     ipam:
       config:
