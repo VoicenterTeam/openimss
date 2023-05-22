@@ -188,4 +188,41 @@ c7665137d42c   docker_openimss_rtpengine                  "/bin/sh -c /mnt/rtp�
 09bd99f2a02b   docker_openimss_open5gs                    "/bin/sh -c /open5gs…"   5 minutes ago   Up 5 minutes             7777/tcp                                                                                                                       nrf
 5e0a05b79569   docker_openimss_metrics                    "/bin/sh -c /mnt/met…"   5 minutes ago   Up 5 minutes             0.0.0.0:9090->9090/tcp, :::9090->9090/tcp                                                                                      metrics
 
+
+
+~/openimss (master) # docker-compose -f srsenb.yaml up -d && docker attach srsenb
+WARNING: Found orphan containers (scscf, clickhouse-server, mysql, portainer, fhoss, hss, sgwc, rtpengine, dns, icscf, bsf, qryn, exporter, nssf, coroot, osmomsc, udm, osmohlr, smf, pcscf, mme, sgwu, heplify-server, ausf, pcrf, webui, vector-coroot, mongo, vector, v
+ector_logs, scp, upf, nrf, amf, grafana, metrics, pcf, udr) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up.
+Starting srsenb ... done
+
+Built in Release mode using commit 10f81ca03 on branch lc/main.
+
+Opening 1 channels in RF device=default with args=default
+Supported RF device list: UHD soapy zmq lime file
+Trying to open RF device 'UHD'
+[INFO] [UHD] linux; GNU C++ version 9.4.0; Boost_107100; UHD_4.4.0.0-0ubuntu1~focal1
+[INFO] [LOGGING] Fastpath logging disabled at runtime.
+[INFO] [B200] Loading firmware image: /usr/share/uhd/images/usrp_b200_fw.hex...
+Opening USRP channels=1, args: type=b200,master_clock_rate=23.04e6
+[INFO] [UHD RF] RF UHD Generic instance constructed
+[INFO] [B200] Detected Device: B210
+[INFO] [B200] Loading FPGA image: /usr/share/uhd/images/usrp_b210_fpga.bin...
+[INFO] [B200] Operating over USB 3.
+[INFO] [B200] Detecting internal GPSDO.... 
+[INFO] [GPS] No GPSDO found
+[INFO] [B200] Initialize CODEC control...
+[INFO] [B200] Initialize Radio control...
+[INFO] [B200] Performing register loopback test... 
+[INFO] [B200] Register loopback test passed
+[INFO] [B200] Performing register loopback test... 
+[INFO] [B200] Register loopback test passed
+[INFO] [B200] Asking for clock rate 23.040000 MHz... 
+[INFO] [B200] Actually got clock rate 23.040000 MHz.
+RF device 'UHD' successfully opened
+
+==== eNodeB started ===
+Type <t> to view trace
+Setting frequency: DL=2660.0 Mhz, UL=2540.0 MHz for cc_idx=0 nof_prb=50
+[INFO] [UHD RF] Tx while waiting for EOB, timed out... 14.8769 >= 0. Starting new burst...
+
 </pre>
