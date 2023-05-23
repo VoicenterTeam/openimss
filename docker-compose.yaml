@@ -642,6 +642,15 @@ services:
     networks:
       default:
         ipv4_address: ${OSMOHLR_IP}
+  asterisk-amr:
+    build: ./asterisk-amr
+    image: asterisk-amr
+    container_name: asterisk-amr
+    env_file:
+      - .env
+    networks:
+      default:
+        ipv4_address: ${ASTERISK_AMR_IP}
   metrics:
     build: ./metrics
     image: docker_openimss_metrics

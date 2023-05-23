@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<document type="captagent_module/xml">
+    <module name="transport_hep" description="HEP Protocol" serial="2014010402">
+	<profile name="hepsocket" description="Transport HEP" enable="true" serial="2014010402">
+	    <settings>
+		<param name="version" value="3"/>
+		<param name="capture-host" value="{{ hepIP }}"/>
+		<param name="capture-port" value="{{ hepPort }}"/>
+		<param name="capture-proto" value="udp"/>
+		<param name="capture-id" value="{{ hepID }}"/>
+		<param name="capture-password" value="myhep"/>
+		<param name="payload-compression" value="false"/>
+	    </settings>
+	</profile>
+    </module>
+</document>
