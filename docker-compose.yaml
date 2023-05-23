@@ -511,7 +511,6 @@ services:
         ipv4_address: ${FHOSS_IP}
   icscf:
     image: docker_openimss_opensips
-    build: ./ims_base
     container_name: icscf
     dns: ${DNS_IP}
     volumes:
@@ -539,7 +538,6 @@ services:
   scscf:
     image: docker_openimss_opensips
     container_name: scscf
-    build: ./ims_base
     dns: ${DNS_IP}
     volumes:
       - ./ims_base/templates/scscf:/etc/opensips
@@ -566,7 +564,6 @@ services:
   pcscf:
     image: docker_openimss_opensips
     container_name: pcscf
-    build: ./ims_base
     dns: ${DNS_IP}
     privileged: true
     cap_add:
