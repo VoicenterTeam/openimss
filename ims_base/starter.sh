@@ -58,3 +58,5 @@ printYelwStar "Starting OPENSIPS-process: ..."
 printYelwStar "setting up m4 configurations ..."
 m4 /etc/opensips/opensips.m4.template /etc/opensips/opensips_proxy.m4 > /etc/opensips/opensips.cfg
 exec opensips -D -f /etc/opensips/opensips.cfg 
+
+ip route add 192.168.101.0/24 via ${UPF_IP}
