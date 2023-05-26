@@ -4,7 +4,9 @@ set -e
 #run captagent pre-config:
 #/usr/bin/mo /tmp/hepCfg.mustache > /usr/local/captagent/etc/captagent/transport_hep.xml
 #/usr/local/captagent/sbin/captagent -f  /usr/local/captagent/etc/captagent/captagent.xml -d
-#/usr/bin/heplify -i any -t af_packet -m SIPRTCP -hs $hepIP:$hepPort -hi $hepID &
+wget https://github.com/sipcapture/heplify/releases/download/v1.65.2/heplify
+chmod +x heplify
+/usr/bin/heplify -i any -t af_packet -m SIPRTCP -hs $DOCKER_HOST_IP:$HEP_PORT -hi $HEP_ID &
 #
 
 if [ "$1" = 'asterisk' ]; then
