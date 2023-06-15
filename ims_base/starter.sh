@@ -57,6 +57,10 @@ printYelwStar "Starting OPENSIPS-process: ..."
 #/sbin/opensips-m4cfg
 printYelwStar "setting up m4 configurations ..."
 m4 /etc/opensips/opensips.m4.template /etc/opensips/opensips_proxy.m4 > /etc/opensips/opensips.cfg
-exec opensips -D -f /etc/opensips/opensips.cfg 
+if [ "$templateName" = "pcscf" ];
+then
+    printYelwStar "Adding route to ${UPF_IP}"
+    route add -net 192.168.101.0 netmask 255.255.255.0 gw ${UPF_IP}
+fi
 
-ip route add 192.168.101.0/24 via ${UPF_IP}
+exec opensips -D -f /etc/opensips/opensips.cfg
