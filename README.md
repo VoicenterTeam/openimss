@@ -56,24 +56,24 @@ docker compose build --no-cache
 docker compose up
 
 # srsRAN eNB
-docker-compose -f srsenb.yaml up -d && docker attach srsenb
+docker compose -f srsenb.yaml up -d && docker attach srsenb
 # srsRAN gNB
-docker-compose -f srsgnb.yaml up -d && docker attach srsgnb
+docker compose -f srsgnb.yaml up -d && docker attach srsgnb
 # srsRAN ZMQ based setup
     # eNB
-    docker-compose -f srsenb_zmq.yaml up -d && docker attach srsenb_zmq
+    docker compose -f srsenb_zmq.yaml up -d && docker attach srsenb_zmq
     # gNB
-    docker-compose -f srsgnb_zmq.yaml up -d && docker attach srsgnb_zmq
+    docker compose -f srsgnb_zmq.yaml up -d && docker attach srsgnb_zmq
     # 4G UE
-    docker-compose -f srsue_zmq.yaml up -d && docker attach srsue_zmq
+    docker compose -f srsue_zmq.yaml up -d && docker attach srsue_zmq
     # 5G UE
-    docker-compose -f srsue_5g_zmq.yaml up -d && docker attach srsue_5g_zmq
+    docker compose -f srsue_5g_zmq.yaml up -d && docker attach srsue_5g_zmq
 
 # UERANSIM gNB
-docker-compose -f nr-gnb.yaml up -d && docker attach nr_gnb
+docker compose -f nr-gnb.yaml up -d && docker attach nr_gnb
 
 # UERANSIM NR-UE
-docker-compose -f nr-ue.yaml up -d && docker attach nr_ue
+docker compose -f nr-ue.yaml up -d && docker attach nr_ue
 ```
 
 ## Configuration
