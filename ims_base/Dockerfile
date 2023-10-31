@@ -44,7 +44,7 @@ RUN cd /opt/opensips-cli && python3 setup.py install clean
 #oSips compile:
 RUN make
 RUN make proper
-RUN make prefix=/ include_modules="aaa_diameter db_mysql json httpd prometheus" install
+RUN make prefix=/ include_modules="aaa_diameter db_mysql json httpd prometheus tls_mgm tls_openssl" install
 RUN mkdir -p /run/opensips/ | true
 # RUN cd /opt/opensips/deploy_scripts/opensips/rabbitmq-c-0.9.0 && mkdir -p build
 # RUN cd /opt/opensips/deploy_scripts/opensips/rabbitmq-c-0.9.0/build && cmake ..
