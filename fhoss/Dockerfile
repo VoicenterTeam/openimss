@@ -44,7 +44,7 @@ RUN apt-get update && \
 
 # Install Oracle Java 7 SE JDK
 RUN mkdir -p  /usr/lib/jvm/ && \
-	cd / && wget https://files-cdn.liferay.com/mirrors/download.oracle.com/otn-pub/java/jdk/7u80-b15/jdk-7u80-linux-x64.tar.gz && \
+	cd / && wget https://repo.huaweicloud.com/java/jdk/7u80-b15/jdk-7u80-linux-x64.tar.gz && \
 	tar -zxf /jdk-7u80-linux-x64.tar.gz -C /usr/lib/jvm/ && \
 	update-alternatives --install /usr/bin/java java /usr/lib/jvm/jdk1.7.0_80/bin/java 100 && \
 	update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/jdk1.7.0_80/bin/javac 100
