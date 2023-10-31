@@ -25,8 +25,8 @@ SDRs tested with srsLTE eNB
 ## Build and Execution Instructions
 
 * Mandatory requirements:
-	* [docker-ce](https://docs.docker.com/install/linux/docker-ce/ubuntu)
-	* [docker-compose](https://docs.docker.com/compose)
+	* [docker](https://docs.docker.com/engine/install/debian/)
+	* [docker compose](https://docs.docker.com/compose/install/linux/)
 
 
 
@@ -52,8 +52,8 @@ docker build --no-cache --force-rm -t docker_openimss_ueransim .
 cd ..
 set -a
 source .env
-docker-compose build --no-cache
-docker-compose up
+docker compose build --no-cache
+docker compose up
 
 # srsRAN eNB
 docker-compose -f srsenb.yaml up -d && docker attach srsenb
