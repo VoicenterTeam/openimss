@@ -18,7 +18,7 @@ ARG osBldUsr
 ARG osBldPswd
 ARG osBldBrnch
 ARG CACHEBUST=1
-RUN git clone https://github.com/OpenSIPS/opensips.git  /opt/opensips
+RUN git clone -b 3.4 https://github.com/OpenSIPS/opensips.git  /opt/opensips
 COPY s.cast.int.patch /tmp
 #
 WORKDIR /opt/opensips
